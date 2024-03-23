@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/game/dino_run.dart';
+import '../game/rabbit_run.dart';
 import '/game/audio_manager.dart';
 import '/models/player_data.dart';
 import '/widgets/pause_menu.dart';
@@ -14,7 +14,7 @@ class Hud extends StatelessWidget {
   static const id = 'Hud';
 
   // Reference to parent game.
-  final DinoRun gameRef;
+  final RabbitRun gameRef;
 
   const Hud(this.gameRef, {Key? key}) : super(key: key);
 

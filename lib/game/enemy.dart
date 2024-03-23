@@ -1,12 +1,11 @@
+import 'package:dino_run/game/rabbit_run.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-
-import '/game/dino_run.dart';
 import '/models/enemy_data.dart';
 
 // This represents an enemy in the game world.
 class Enemy extends SpriteAnimationComponent
-    with CollisionCallbacks, HasGameRef<DinoRun> {
+    with CollisionCallbacks, HasGameRef<RabbitRun> {
   // The data required for creation of this enemy.
   final EnemyData enemyData;
 
@@ -41,7 +40,6 @@ class Enemy extends SpriteAnimationComponent
   @override
   void update(double dt) {
     position.x -= enemyData.speedX * dt;
-
     // Remove the enemy and increase player score
     // by 1, if enemy has gone past left end of the screen.
     if (position.x < -enemyData.textureSize.x) {

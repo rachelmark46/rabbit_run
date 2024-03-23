@@ -1,9 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
+import '../game/rabbit_run.dart';
 import '/widgets/hud.dart';
-import '/game/dino_run.dart';
 import '/widgets/settings_menu.dart';
 
 // This represents the main menu overlay.
@@ -12,7 +11,7 @@ class MainMenu extends StatelessWidget {
   static const id = 'MainMenu';
 
   // Reference to parent game.
-  final DinoRun gameRef;
+  final RabbitRun gameRef;
 
   const MainMenu(this.gameRef, {Key? key}) : super(key: key);
 
@@ -36,7 +35,7 @@ class MainMenu extends StatelessWidget {
                 spacing: 10,
                 children: [
                   const Text(
-                    'Dino Run',
+                    'RABBIT RUN',
                     style: TextStyle(
                       fontSize: 50,
                       color: Colors.white,

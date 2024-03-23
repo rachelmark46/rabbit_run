@@ -30,6 +30,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/parallax/
+    - assets/images/parallaxl/
     - assets/images/AngryPig/
     - assets/images/Bat/
     - assets/images/Rino/

@@ -5,8 +5,8 @@ import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'game/rabbit_run.dart';
 import 'widgets/hud.dart';
-import 'game/dino_run.dart';
 import 'models/settings.dart';
 import 'widgets/main_menu.dart';
 import 'models/player_data.dart';
@@ -16,7 +16,7 @@ import 'widgets/game_over_menu.dart';
 
 /// This is the single instance of [DinoRun] which
 /// will be reused throughout the lifecycle of the game.
-DinoRun _dinoRun = DinoRun();
+RabbitRun _rabbitRun = RabbitRun();
 
 Future<void> main() async {
   // Ensures that all bindings are initialized
@@ -30,7 +30,7 @@ Future<void> main() async {
 
   // Initializes hive and register the adapters.
   await initHive();
-  runApp(const DinoRunApp());
+  runApp(const RabbitRunApp());
 }
 
 // This function will initilize hive with apps documents directory.
@@ -47,14 +47,14 @@ Future<void> initHive() async {
 }
 
 // The main widget for this game.
-class DinoRunApp extends StatelessWidget {
-  const DinoRunApp({Key? key}) : super(key: key);
+class RabbitRunApp extends StatelessWidget {
+  const RabbitRunApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Dino Run',
+      title: 'Rabbit Run ',
       theme: ThemeData(
         fontFamily: 'Audiowide',
         primarySwatch: Colors.blue,
@@ -71,7 +71,7 @@ class DinoRunApp extends StatelessWidget {
         body: GameWidget(
           // This will dislpay a loading bar until [DinoRun] completes
           // its onLoad method.
-          loadingBuilder: (conetxt) => const Center(
+          loadingBuilder: (context) => const Center(
             child: SizedBox(
               width: 200,
               child: LinearProgressIndicator(),
@@ -79,15 +79,15 @@ class DinoRunApp extends StatelessWidget {
           ),
           // Register all the overlays that will be used by this game.
           overlayBuilderMap: {
-            MainMenu.id: (_, DinoRun gameRef) => MainMenu(gameRef),
-            PauseMenu.id: (_, DinoRun gameRef) => PauseMenu(gameRef),
-            Hud.id: (_, DinoRun gameRef) => Hud(gameRef),
-            GameOverMenu.id: (_, DinoRun gameRef) => GameOverMenu(gameRef),
-            SettingsMenu.id: (_, DinoRun gameRef) => SettingsMenu(gameRef),
+            MainMenu.id: (_, RabbitRun gameRef) => MainMenu(gameRef),
+            PauseMenu.id: (_, RabbitRun gameRef) => PauseMenu(gameRef),
+            Hud.id: (_, RabbitRun gameRef) => Hud(gameRef),
+            GameOverMenu.id: (_, RabbitRun gameRef) => GameOverMenu(gameRef),
+            SettingsMenu.id: (_, RabbitRun gameRef) => SettingsMenu(gameRef),
           },
           // By default MainMenu overlay will be active.
           initialActiveOverlays: const [MainMenu.id],
-          game: _dinoRun,
+          game: _rabbitRun,
         ),
       ),
     );

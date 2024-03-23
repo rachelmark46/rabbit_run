@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../game/rabbit_run.dart';
 import '/widgets/hud.dart';
-import '/game/dino_run.dart';
+
 import '/widgets/main_menu.dart';
 import '/models/player_data.dart';
 import '/game/audio_manager.dart';
@@ -16,7 +17,7 @@ class GameOverMenu extends StatelessWidget {
   static const id = 'GameOverMenu';
 
   // Reference to parent game.
-  final DinoRun gameRef;
+  final RabbitRun gameRef;
 
   const GameOverMenu(this.gameRef, {Key? key}) : super(key: key);
 

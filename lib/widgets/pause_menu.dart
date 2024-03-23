@@ -2,9 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../game/rabbit_run.dart';
 import '/widgets/hud.dart';
-import '/game/dino_run.dart';
 import '/widgets/main_menu.dart';
 import '/game/audio_manager.dart';
 import '/models/player_data.dart';
@@ -15,7 +14,7 @@ class PauseMenu extends StatelessWidget {
   static const id = 'PauseMenu';
 
   // Reference to parent game.
-  final DinoRun gameRef;
+  final RabbitRun gameRef;
 
   const PauseMenu(this.gameRef, {Key? key}) : super(key: key);
 
