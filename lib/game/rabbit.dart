@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:dino_run/game/rabbit_run.dart';
+import '/game/rabbit_run.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import '/game/enemy.dart';
@@ -12,7 +12,8 @@ enum RabbitAnimationStates {
   run,
   kick,
   hit,
-  sprint, pop,
+  sprint,
+  pop,
 }
 
 // This represents the dino character of this game.
@@ -22,53 +23,48 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
   static final _animationMap = {
     RabbitAnimationStates.idle: SpriteAnimationData.sequenced(
       amount: 1,
-      //amount: 3,
       stepTime: 0.1,
       textureSize: Vector2.all(24),
     ),
-    RabbitAnimationStates.sprint: SpriteAnimationData.sequenced(
+    RabbitAnimationStates.run: SpriteAnimationData.sequenced(
       amount: 4,
       stepTime: 0.1,
       textureSize: Vector2.all(24),
-      texturePosition: Vector2((1 ) * 24, 0),
+      texturePosition: Vector2((5) * 24, 0),
     ),
-    RabbitAnimationStates.run: SpriteAnimationData.sequenced(
-     // amount: 3,
-      amount:4,
+    RabbitAnimationStates.kick: SpriteAnimationData.sequenced(
+      // amount: 3,
+      amount: 4,
       stepTime: 0.1,
       textureSize: Vector2.all(24),
-      texturePosition: Vector2((1+4) * 24, 0),
+      texturePosition: Vector2((5 + 9) * 24, 0),
     ),
-    RabbitAnimationStates.pop: SpriteAnimationData.sequenced(
+    RabbitAnimationStates.sprint: SpriteAnimationData.sequenced(
       amount: 5,
       stepTime: 0.1,
       textureSize: Vector2.all(24),
-      texturePosition: Vector2(( 1 + 4+4) * 24, 0),
+      texturePosition: Vector2((1 + 4 + 4) * 24, 0),
     ),
-
     RabbitAnimationStates.hit: SpriteAnimationData.sequenced(
       amount: 3,
       stepTime: 0.1,
       textureSize: Vector2.all(24),
-      texturePosition: Vector2(( 1 + 4+4+5) * 24, 0),
+      texturePosition: Vector2((1 + 4 + 4 + 5) * 24, 0),
     ),
-
-    RabbitAnimationStates.kick: SpriteAnimationData.sequenced(
+    RabbitAnimationStates.pop: SpriteAnimationData.sequenced(
       amount: 4,
       stepTime: 0.1,
       textureSize: Vector2.all(24),
-      texturePosition: Vector2((1+4+4+5+3) * 24, 0),
+      texturePosition: Vector2((1 + 4 + 4 + 5 + 3) * 24, 0),
     ),
   };
 
   // The max distance from top of the screen beyond which
   // dino should never go. Basically the screen height - ground height
   double yMax = 0.0;
-  //  double yMax = 0.0;
 
   // Dino's current speed along y-axis.
   double speedY = 0.0;
-  bool isJumping = false;
 
   // Controlls how long the hit animations will be played.
   final Timer _hitTimer = Timer(1);
@@ -79,12 +75,11 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
 
   bool isHit = false;
   //Returns true if dino is on ground.
-  //bool get isOnGround => (y >= yMax);
- bool isOnGround = true ;
+
   Rabbit(Image image, this.playerData)
       : super.fromFrameData(image, _animationMap);
 
- @override
+  @override
   void onMount() {
     // First reset all the important properties, because onMount()
     // will be called even while restarting the game.
@@ -123,7 +118,7 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
       y = yMax;
       speedY = 0.0;
       if ((current != RabbitAnimationStates.hit) &&
-          (current != RabbitAnimationStates.sprint )) {
+          (current != RabbitAnimationStates.run)) {
         current = RabbitAnimationStates.run;
       }
     }
@@ -143,51 +138,26 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
     super.onCollision(intersectionPoints, other);
   }
 
+// Returns true if dino is on ground.
+  bool get isOnGround => (y >= yMax);
 
-
-  // void jump() {
-  //   if (isOnGround) {
-  //     if (!_isJumping) {
-  //       _isJumping = true;
-  //       //speedY = -300;
-  //       current = RabbitAnimationStates.sprint;
-  //       AudioManager.instance.playSfx('jump14.wav');
-  //       // Logic to handle jumping movement
-  //     }
-  //   }
-  // }
-
-
-  void run() {
-    if (isJumping) {
-      isJumping = false;
-      speedY = -300;
-      current = RabbitAnimationStates.run;
-      // Logic to handle running movement
-    }
-  }
-
- // Makes the dino jump.
+  // Makes the dino jump.
   void jump() {
     // Jump only if dino is on ground.
-    //if (isOnGround && !isJumping) {
-    if (isOnGround){
-      isJumping = true;
-      isOnGround = false ;
+    if (isOnGround) {
       speedY = -300;
-      current = RabbitAnimationStates.sprint;
+      current = RabbitAnimationStates.idle;
       AudioManager.instance.playSfx('jump14.wav');
     }
-    isOnGround = true ;
   }
 
   // This method changes the animation state to
-  /// [DinoAnimationStates.hit], plays the hit sound
-  /// effect and reduces the player life by 1.
+  // , plays the hit sound
+  // effect and reduces the player life by 1.
   void hit() {
     isHit = true;
     AudioManager.instance.playSfx('hurt7.wav');
-   current = RabbitAnimationStates.hit;
+    current = RabbitAnimationStates.hit;
     _hitTimer.start();
     playerData.lives -= 1;
   }
@@ -205,5 +175,6 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
     current = RabbitAnimationStates.run;
     isHit = false;
     speedY = 0.0;
+
   }
 }

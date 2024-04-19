@@ -4,7 +4,6 @@ import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'game/rabbit_run.dart';
 import 'widgets/hud.dart';
 import 'models/settings.dart';
@@ -13,8 +12,9 @@ import 'models/player_data.dart';
 import 'widgets/pause_menu.dart';
 import 'widgets/settings_menu.dart';
 import 'widgets/game_over_menu.dart';
+import 'widgets/celeb_widget.dart';
 
-/// This is the single instance of [DinoRun] which
+/// This is the single instance of [RabbitRun] which
 /// will be reused throughout the lifecycle of the game.
 RabbitRun _rabbitRun = RabbitRun();
 
@@ -84,6 +84,7 @@ class RabbitRunApp extends StatelessWidget {
             Hud.id: (_, RabbitRun gameRef) => Hud(gameRef),
             GameOverMenu.id: (_, RabbitRun gameRef) => GameOverMenu(gameRef),
             SettingsMenu.id: (_, RabbitRun gameRef) => SettingsMenu(gameRef),
+            CelebWidget.id: (_, RabbitRun gameRef) => CelebWidget(gameRef),
           },
           // By default MainMenu overlay will be active.
           initialActiveOverlays: const [MainMenu.id],

@@ -21,7 +21,7 @@ class PlayerData extends ChangeNotifier with HiveObjectMixin {
 
 
 
-
+  int _currentStage =1 ;
    int _currentScore = 0;
 
   int get currentScore => _currentScore;
@@ -33,20 +33,27 @@ class PlayerData extends ChangeNotifier with HiveObjectMixin {
     }
 
     // Check if score exceeds 100 and progress to stage 2
-    if (_currentScore >= 100) {
-      progressToStage2();
-    }
-
+    // if (_currentScore >= 100) {
+    //   progressToStage2();
+    // }
+    //
 
     notifyListeners();
     save();
   }
 
-  void progressToStage2() {
-    // Logic to progress to stage 2
-    // This can include updating the current stage in the game or any other relevant logic.
-    // For example:
-     //gameRef.setCurrentStage(2);
+  int get currentStage => _currentStage ;
+  set currentStage(int value) {
+    _currentStage = value;
+
+    notifyListeners();
+    save();
   }
+  // void progressToStage2() {
+  //   // Logic to progress to stage 2
+  //   // This can include updating the current stage in the game or any other relevant logic.
+  //   // For example:
+  //    //gameRef.setCurrentStage(2);
+  // }
 
 }

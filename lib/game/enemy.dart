@@ -25,7 +25,6 @@ class Enemy extends SpriteAnimationComponent
     // Reduce the size of enemy as they look too
     // big compared to the dino.
     size *= 0.6;
-
     // Add a hitbox for this enemy.
     add(
       RectangleHitbox.relative(
