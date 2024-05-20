@@ -15,7 +15,7 @@ class CelebWidget extends StatefulWidget {
   final double width = 20;
   final double height = 20;
   final double maxBlastForce = 20;
-  final Duration duration = const Duration(seconds: 5);
+  final Duration duration = const Duration(seconds: 3);
 
   const CelebWidget(this.gameRef, {Key? key}) : super(key: key);
 
@@ -26,7 +26,7 @@ class CelebWidget extends StatefulWidget {
 class _CelebWidgetState extends State<CelebWidget>
     with SingleTickerProviderStateMixin {
   final controllerCenter =
-      ConfettiController(duration: const Duration(seconds: 10));
+      ConfettiController(duration: const Duration(seconds: 3));
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _CelebWidgetState extends State<CelebWidget>
         shouldLoop: false,
         gravity: 0.5,
         emissionFrequency: 0.05,
-        numberOfParticles: 20,
+        numberOfParticles: 30,
         colors: const [
           Colors.green,
           Colors.blue,

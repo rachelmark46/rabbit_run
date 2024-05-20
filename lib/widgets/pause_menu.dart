@@ -42,7 +42,7 @@ class PauseMenu extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Selector<PlayerData, int>(
-                        selector: (_, playerData) => playerData.currentScore,
+                        selector: (_, playerData) => playerData.currentscore,
                         builder: (_, score, __) {
                           return Text(
                             'Score: $score',
@@ -66,28 +66,29 @@ class PauseMenu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        gameRef.overlays.remove(PauseMenu.id);
-                        gameRef.overlays.add(Hud.id);
-                        gameRef.resumeEngine();
-                        gameRef.reset();
-                        gameRef.startGamePlay();
-                        AudioManager.instance.resumeBgm();
-                      },
-                      child: const Text(
-                        'Restart',
-                        style: TextStyle(
-                          fontSize: 30,
-                        ),
-                      ),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     gameRef.overlays.remove(PauseMenu.id);
+                    //     gameRef.overlays.add(Hud.id);
+                    //     gameRef.resumeEngine();
+                    //     gameRef.reset();
+                    //     gameRef.startGamePlay();
+                    //     AudioManager.instance.resumeBgm();
+                    //   },
+                    //   child: const Text(
+                    //     'Restart',
+                    //     style: TextStyle(
+                    //       fontSize: 30,
+                    //     ),
+                    //   ),
+                    // ),
                     ElevatedButton(
                       onPressed: () {
                         gameRef.overlays.remove(PauseMenu.id);
                         gameRef.overlays.add(MainMenu.id);
+                       // gameRef.reset();
                         gameRef.resumeEngine();
-                        gameRef.reset();
+
                         AudioManager.instance.resumeBgm();
                       },
                       child: const Text(

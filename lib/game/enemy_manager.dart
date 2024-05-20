@@ -19,9 +19,9 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
   void spawnRandomEnemy() {
     print("under spawn random enemy");
     // gameRef.currentStage == _enemyManager.gameRef.currentStage ;
-    print(gameRef.currentStage);
+    print(gameRef.currentlevel);
     final List<EnemyData> currentStageEnemies =
-        gameRef.currentStage == 1 ? _stage1Enemies : _stage2Enemies;
+        gameRef.currentlevel == 1 ? _stage1Enemies : _stage2Enemies;
 
     final randomIndex = _random.nextInt(currentStageEnemies.length);
     final enemyData = currentStageEnemies[randomIndex];
@@ -117,13 +117,21 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
         canFly: true,
       ),
       EnemyData(
-        image: gameRef.images.fromCache('Chameleon/Run (84x38).png'),
-        nFrames: 8,
+        image: gameRef.images.fromCache('Rocks/Rock1_Run (38x34).png'),
+        nFrames: 14,
         stepTime: 0.1,
-        textureSize: Vector2(84, 38),
-        speedX: 80,
+        textureSize: Vector2(38, 34),
+        speedX: 150,
         canFly: false,
       ),
+      // EnemyData(
+      //   image: gameRef.images.fromCache('Chameleon/Run (84x38).png'),
+      //   nFrames: 8,
+      //   stepTime: 0.1,
+      //   textureSize: Vector2(84, 38),
+      //   speedX: 80,
+      //   canFly: false,
+      // ),
       EnemyData(
         image: gameRef.images.fromCache('BlueBird/Flying (32x32).png'),
         nFrames: 9,
@@ -164,6 +172,6 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
 
   // Method to set the current stage
   void setCurrentStage(int stage) {
-    gameRef.currentStage = stage;
+    gameRef.currentlevel = stage;
   }
 }

@@ -31,7 +31,7 @@ class Hud extends StatelessWidget {
             Column(
               children: [
                 Selector<PlayerData, int>(
-                  selector: (_, playerData) => playerData.currentScore,
+                  selector: (_, playerData) => playerData.currentscore,
                   builder: (_, score, __) {
                     return Text(
                       'Score: $score',

@@ -60,7 +60,7 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
   };
 
   // The max distance from top of the screen beyond which
-  // dino should never go. Basically the screen height - ground height
+  // rabbit should never go. Basically the screen height - ground height
   double yMax = 0.0;
 
   // Dino's current speed along y-axis.
@@ -83,9 +83,9 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
   void onMount() {
     // First reset all the important properties, because onMount()
     // will be called even while restarting the game.
-    _reset();
+    reset();
 
-    // Add a hitbox for dino.
+    // Add a hitbox for rabbit.
     add(
       RectangleHitbox.relative(
         Vector2(0.5, 0.7),
@@ -127,7 +127,7 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
     super.update(dt);
   }
 
-  // Gets called when dino collides with other Collidables.
+  // Gets called when rabbit collides with other Collidables.
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     // Call hit only if other component is an Enemy and dino
@@ -164,7 +164,7 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
 
   // This method reset some of the important properties
   // of this component back to normal.
-  void _reset() {
+  void reset() {
     if (isMounted) {
       removeFromParent();
     }

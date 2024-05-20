@@ -13,10 +13,13 @@ import 'widgets/pause_menu.dart';
 import 'widgets/settings_menu.dart';
 import 'widgets/game_over_menu.dart';
 import 'widgets/celeb_widget.dart';
+import 'splash_screen_page.dart';
 
 /// This is the single instance of [RabbitRun] which
 /// will be reused throughout the lifecycle of the game.
 RabbitRun _rabbitRun = RabbitRun();
+
+
 
 Future<void> main() async {
   // Ensures that all bindings are initialized
@@ -30,7 +33,8 @@ Future<void> main() async {
 
   // Initializes hive and register the adapters.
   await initHive();
-  runApp(const RabbitRunApp());
+  runApp(const MyApp());
+ // runApp(const RabbitRunApp());
 }
 
 // This function will initilize hive with apps documents directory.
@@ -46,9 +50,30 @@ Future<void> initHive() async {
   Hive.registerAdapter<Settings>(SettingsAdapter());
 }
 
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  static const String versionNumber = '1.0.0';
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'RABBIT RUN',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.yellow,
+      ),
+      home: const SplashScreenPage(),
+    );
+  }
+}
+
 // The main widget for this game.
 class RabbitRunApp extends StatelessWidget {
   const RabbitRunApp({Key? key}) : super(key: key);
+
+  //static const String versionNumber = '1.0.0';
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +92,11 @@ class RabbitRunApp extends StatelessWidget {
           ),
         ),
       ),
+
+
       home: Scaffold(
         body: GameWidget(
-          // This will dislpay a loading bar until [DinoRun] completes
+          // This will dislpay a loading bar until [RabbitRun] completes
           // its onLoad method.
           loadingBuilder: (context) => const Center(
             child: SizedBox(

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import '../game/audio_manager.dart';
 import '../game/rabbit_run.dart';
 import '/widgets/hud.dart';
 import '/widgets/settings_menu.dart';
@@ -41,11 +42,31 @@ class MainMenu extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     gameRef.startGamePlay();
+                  //     gameRef.overlays.remove(MainMenu.id);
+                  //     gameRef.overlays.add(Hud.id);
+                  //   },
+                  //   child: const Text(
+                  //     'Play',
+                  //     style: TextStyle(
+                  //       fontSize: 30,
+                  //     ),
+                  //   ),
+                  // ),
+
+
                   ElevatedButton(
                     onPressed: () {
-                      gameRef.startGamePlay();
+
+                      // gameRef.resumeEngine();
                       gameRef.overlays.remove(MainMenu.id);
                       gameRef.overlays.add(Hud.id);
+                      gameRef.startGamePlay();
+                      gameRef.resumeEngine();
+                      //gameRef.startGamePlay();
+                      AudioManager.instance.resumeBgm();
                     },
                     child: const Text(
                       'Play',

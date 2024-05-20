@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dino_run/game/rabbit.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -25,6 +24,7 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
     'AngryPig/Walk (36x30).png',
     'Bat/Flying (46x30).png',
     'Bee/Attack (36x34).png',
+    'Rocks/Rock1_Run (38x34).png',
     'BlueBird/Flying (32x32).png',
     'Chameleon/Run (84x38).png',
     'Rino/Run (52x34).png',
@@ -55,9 +55,10 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
   late PlayerData playerData;
   late EnemyManager _enemyManager;
   bool isPlaying = false;
+  bool parallaxBackgroundAdded = false;
 
   // Track the current stage of the game.
-  int currentStage = 1;
+  int currentlevel = 1;
   int currentscore = 0;
   late ParallaxComponent _parallaxBackgroundStage1;
   late ParallaxComponent _parallaxBackgroundStage2;
@@ -105,9 +106,10 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
 
     // Add stage 1 background to the game by default
     add(_parallaxBackgroundStage1);
+    parallaxBackgroundAdded = true;
 
     // Instantiate the level manager and set the initial level
-    _levelManager = LevelManager(selectedLevel: 1);
+    _levelManager = LevelManager(level: currentlevel);
 
     return super.onLoad();
   }
@@ -126,12 +128,48 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
   /// and [EnemyManager] to this game.
   void startGamePlay() {
     // Create a new instance of Rabbit and EnemyManager
-    _rabbit = Rabbit(images.fromCache('rabbit.png'), playerData);
-    _enemyManager = EnemyManager();
 
-// Add Rabbit and EnemyManager to the game
-    add(_rabbit);
+    currentlevel = 1;
+    print(playerData.currentlevel);
+    // this will work only when there is no background added
+    addParallaxBackground(_parallaxBackgroundStage1);
+    _rabbit = Rabbit(images.fromCache('rabbit.png'), playerData);
+
+    _rabbit.addToParent(_parallaxBackgroundStage1);
+    _enemyManager = EnemyManager();
     add(_enemyManager);
+    _levelManager = LevelManager(level: currentlevel);
+// Add Rabbit and EnemyManager to the game
+  }
+
+  Future<void> addParallaxBackground(
+      ParallaxComponent parallaxBackground) async {
+    /// Create parallax backgrounds for both stages.
+    _parallaxBackgroundStage1 = await _createParallaxBackground(
+        //_createParallaxBackground([
+        [
+          'parallax/plx-1.png',
+          'parallax/plx-2.png',
+          'parallax/plx-3.png',
+          'parallax/plx-4.png',
+          'parallax/plx-5.png',
+          'parallax/plx-6.png'
+        ]);
+    _parallaxBackgroundStage2 = await _createParallaxBackground([
+      'parallaxl/plx-1.png',
+      'parallaxl/plx-2.png',
+      'parallaxl/plx-3.png',
+      'parallaxl/plx-4.png',
+      'parallaxl/plx-5.png',
+      'parallaxl/plx-6.png'
+    ]);
+
+    // Add stage 1 background to the game by default
+
+    if (!parallaxBackgroundAdded) {
+      add(parallaxBackground);
+      parallaxBackgroundAdded = true;
+    }
   }
 
   // This method remove all the actors from the game.
@@ -146,38 +184,29 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
     // First disconnect all actions from game world.
 
     _disconnectActors();
-
+    print("under  reset ");
+    print(playerData.currentlevel);
+    if ((playerData.currentlevel == 1) && (parallaxBackgroundAdded = true)) {
+      //remove(_parallaxBackgroundStage1 );
+      _parallaxBackgroundStage1.removeFromParent();
+      parallaxBackgroundAdded = false;
+    } else if ((playerData.currentlevel == 2) &&
+        (parallaxBackgroundAdded = true)) {
+      //remove(_parallaxBackgroundStage2);
+      _parallaxBackgroundStage2.removeFromParent();
+      parallaxBackgroundAdded = false;
+    }
     // Reset player data to inital values.
-    playerData.currentScore = 0;
-    playerData.lives = 500;
-    playerData.currentStage = 1;
+    playerData.currentscore = 0;
+    playerData.lives = 5;
+    playerData.currentlevel = 1;
+    //_background();
+    //add(_parallaxBackgroundStage1);
   }
 
   //Method to update the score
   void updateScore(int bonus) {
-    playerData.currentScore = playerData.currentScore + bonus;
-  }
-
-  // Method to start the confetti animation and stop after 15 seconds
-  void _startConfetti() {
-    // Return if confetti is already playing
-    if (!isPlaying) {
-      // Initialize the ConfettiController if not already initialized
-      // _controller =
-      //     ConfettiController(duration: const Duration(seconds: 15));
-
-      // Play the confetti animation
-      //controller.play();
-      print(" Confetti Confetti ");
-      // Stop the confetti after 15 seconds
-      // Future.delayed(const Duration(seconds: 15), () {
-      // isPlaying = true;
-      sleep(Duration(seconds: 5));
-      print("stop  stop ");
-      // _controller.stop();
-      isPlaying = true;
-      //  });
-    }
+    playerData.currentscore = playerData.currentscore + bonus;
   }
 
   // This method gets called for each tick/frame of the game.
@@ -186,7 +215,7 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
     super.update(dt);
 
     // Check if the current score meets the criteria to progress to the next level
-    if (_levelManager.shouldLevelUp(playerData.currentScore)) {
+    if (_levelManager.shouldLevelUp(playerData.currentscore)) {
       // Progress to the next level
 
       _levelManager.increaseLevel();
@@ -202,64 +231,41 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
     }
   }
 
+  void updateBackground() {
+    if ((_levelManager.level == 2) && (parallaxBackgroundAdded = true)) {
+      _parallaxBackgroundStage1.removeFromParent();
+      parallaxBackgroundAdded = false;
+      addParallaxBackground(_parallaxBackgroundStage2);
+    }
+  }
+
   // Method to update the game environment based on the current level
   void updateGameEnvironment() {
     // Implement logic to update game environment (background, enemies, etc.)
     // based on the current level
-    _enemyManager.setCurrentStage(_levelManager.level);
-
-    int currentLevel = _levelManager.level;
-
+    int currentlevel = _levelManager.level;
     // Example: Update background and enemies based on the current level
-    if (currentLevel == 2) {
+    if (currentlevel == 2) {
       // Update background to stage 2 background
-
+      _enemyManager.setCurrentStage(currentlevel);
       pauseEngine();
       overlays.add(CelebWidget.id);
-
       AudioManager.instance.pauseBgm();
-
-      print("PAUSED");
-
-      print(" Conffeti Playing ");
-
       updateScore(50);
-      print("updated score ");
-      print(playerData.currentScore);
-      // Stop the confetti after 15 seconds
-      // Future.delayed(const Duration(seconds: 15), () {
-      //   // isPlaying = true;
-      //   // sleep(Duration(seconds: 5));
-      //   print("stop  stop ");
-      //   // _controller.stop();
-      // //  isPlaying = true;
-      // });
+      _rabbit.removeFromParent();
+      _enemyManager.removeAllEnemies();
+      updateBackground(); // working
 
-      remove(_parallaxBackgroundStage1);
-
-      add(_parallaxBackgroundStage2);
       _rabbit = Rabbit(images.fromCache('rabbit.png'), playerData);
-      add(_rabbit);
-
-      //  // Update enemy difficulty or spawn different enemies for level 2
-      //  // _enemyManager.updateEnemyDifficultyForLevel(2);
+      _rabbit.addToParent(_parallaxBackgroundStage2);
 
       resumeEngine();
       print("RESUMED");
-      // Ensure the Rabbit is added if it's not already in the game
-      if (_rabbit == null) {
-        print("rabbit is null");
-        _rabbit = Rabbit(images.fromCache('rabbit.png'), playerData);
-        add(_rabbit);
-      }
 
-      // Update enemy difficulty or spawn different enemies for level 2
-
-      _enemyManager.removeAllEnemies();
-
+      add(_enemyManager);
       _enemyManager.spawnStage2Enemies();
-
-      // Additional logic for other levels...
+      // Additional logic for other
+      // levels...
     }
   }
 

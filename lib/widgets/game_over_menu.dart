@@ -2,13 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../game/rabbit_run.dart';
-import '/widgets/hud.dart';
 import '/widgets/main_menu.dart';
 import '/models/player_data.dart';
 import '/game/audio_manager.dart';
+import 'hud.dart';
 
 // This represents the game over overlay,
-// displayed with dino runs out of lives.
+// displayed with rabbit runs out of lives.
 class GameOverMenu extends StatelessWidget {
   // An unique identified for this overlay.
   static const id = 'GameOverMenu';
@@ -44,7 +44,7 @@ class GameOverMenu extends StatelessWidget {
                       style: TextStyle(fontSize: 40, color: Colors.white),
                     ),
                     Selector<PlayerData, int>(
-                      selector: (_, playerData) => playerData.currentScore,
+                      selector: (_, playerData) => playerData.currentscore,
                       builder: (_, score, __) {
                         return Text(
                           'You Score: $score',
@@ -63,12 +63,23 @@ class GameOverMenu extends StatelessWidget {
                       onPressed: () {
                         gameRef.overlays.remove(GameOverMenu.id);
                         gameRef.overlays.add(Hud.id);
-                        gameRef.resumeEngine();
                         gameRef.reset();
                         gameRef.startGamePlay();
+                        gameRef.resumeEngine();
+                        //gameRef.startGamePlay();
                         AudioManager.instance.resumeBgm();
                       },
                     ),
+                    //   onPressed: () {
+                    //     gameRef.overlays.remove(GameOverMenu.id);
+                    //     gameRef.overlays.add(Hud.id);
+                    //     gameRef.reset();
+                    //     gameRef.startGamePlay();
+                    //     gameRef.resumeEngine();
+                    //     //gameRef.reset();
+                    //     AudioManager.instance.resumeBgm();
+                    //   },
+                    // ),
                     ElevatedButton(
                       child: const Text(
                         'Exit',
@@ -79,8 +90,10 @@ class GameOverMenu extends StatelessWidget {
                       onPressed: () {
                         gameRef.overlays.remove(GameOverMenu.id);
                         gameRef.overlays.add(MainMenu.id);
-                        gameRef.resumeEngine();
+                        //gameRef.resumeEngine();
                         gameRef.reset();
+                        // gameRef.startGamePlay();
+                        gameRef.resumeEngine();
                         AudioManager.instance.resumeBgm();
                       },
                     ),
