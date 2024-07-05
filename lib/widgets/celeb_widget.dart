@@ -15,7 +15,7 @@ class CelebWidget extends StatefulWidget {
   final double width = 20;
   final double height = 20;
   final double maxBlastForce = 20;
-  final Duration duration = const Duration(seconds: 3);
+//  final Duration duration = const Duration(seconds: 3);
 
   const CelebWidget(this.gameRef, {Key? key}) : super(key: key);
 
@@ -25,13 +25,22 @@ class CelebWidget extends StatefulWidget {
 
 class _CelebWidgetState extends State<CelebWidget>
     with SingleTickerProviderStateMixin {
-  final controllerCenter =
+ // final controllerCenter =ConfettiController()
+   ConfettiController controllerCenter =
       ConfettiController(duration: const Duration(seconds: 3));
 
   @override
   void initState() {
-    super.initState();
+    // late ConfettiController controllerCenter =
+    //     ConfettiController(duration: const Duration(seconds: 3));
+    //super.initState();
     controllerCenter.play();
+
+    //stop widget
+    //stopConfetti();
+    super.initState();
+
+
   }
 
   @override
@@ -42,7 +51,16 @@ class _CelebWidgetState extends State<CelebWidget>
 
   // Method to stop the confetti animation
   void stopConfetti() {
-    controllerCenter.stop();
+    // It will start the countdown and close after 3 seconds
+    Future.delayed(
+        Duration(seconds: 3),
+            () {
+            //  if (mounted) {
+                controllerCenter.stop();
+               // Navigator.pop(context);
+            //  }
+            });
+   // controllerCenter.stop();
   }
 
   @override
@@ -63,6 +81,7 @@ class _CelebWidgetState extends State<CelebWidget>
           Colors.orange,
           Colors.purple
         ],
+
       ),
     );
   }

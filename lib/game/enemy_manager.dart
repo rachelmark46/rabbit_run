@@ -31,13 +31,14 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
     enemy.anchor = Anchor.bottomLeft;
     enemy.position = Vector2(
       gameRef.size.x + 32,
-      gameRef.size.y - 24,
+      gameRef.size.y - 55,
     );
     if (enemyData.canFly) {
-      final newHeight = _random.nextDouble() * 2 * enemyData.textureSize.y;
+
+      final newHeight = _random.nextDouble() * 2 *( enemyData.textureSize.y)*2;
       enemy.position.y -= newHeight;
     }
-    enemy.size = enemyData.textureSize;
+    enemy.size = (enemyData.textureSize)* 2;
 
     gameRef.add(enemy);
   }
@@ -60,10 +61,10 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
       enemy.anchor = Anchor.bottomLeft;
       enemy.position = Vector2(
         gameRef.size.x + 32,
-        gameRef.size.y - 24,
+        gameRef.size.y - 55,
       );
       if (enemyData.canFly) {
-        final newHeight = _random.nextDouble() * 2 * enemyData.textureSize.y;
+        final newHeight = _random.nextDouble() * 2 * (enemyData.textureSize.y)*2;
         enemy.position.y -= newHeight;
       }
       enemy.size = enemyData.textureSize;
@@ -82,7 +83,7 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
         nFrames: 16,
         stepTime: 0.1,
         textureSize: Vector2(36, 30),
-        speedX: 80,
+        speedX: 130, //earlier 80
         canFly: false,
       ),
       EnemyData(
@@ -90,7 +91,7 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
         nFrames: 7,
         stepTime: 0.1,
         textureSize: Vector2(46, 30),
-        speedX: 100,
+        speedX: 150, //earlier 100
         canFly: true,
       ),
       EnemyData(
@@ -98,7 +99,7 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
         nFrames: 6,
         stepTime: 0.09,
         textureSize: Vector2(52, 34),
-        speedX: 150,
+        speedX: 200,
         canFly: false,
       ),
       // Add more enemies for stage 1 as needed
@@ -113,7 +114,7 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
         nFrames: 8,
         stepTime: 0.1,
         textureSize: Vector2(36, 34),
-        speedX: 80,
+        speedX: 140,   // 80
         canFly: true,
       ),
       EnemyData(
@@ -121,7 +122,7 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
         nFrames: 14,
         stepTime: 0.1,
         textureSize: Vector2(38, 34),
-        speedX: 150,
+        speedX: 180, //150
         canFly: false,
       ),
       // EnemyData(
@@ -137,7 +138,7 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
         nFrames: 9,
         stepTime: 0.1,
         textureSize: Vector2(32, 32),
-        speedX: 100,
+        speedX: 175, //100
         canFly: true,
       ),
     ]);
@@ -165,7 +166,12 @@ class EnemyManager extends Component with HasGameRef<RabbitRun> {
 
   void removeAllEnemies() {
     final enemies = gameRef.children.whereType<Enemy>();
+    _stage1Enemies.clear();
+    _stage2Enemies.clear();
+
     for (var enemy in enemies) {
+
+
       enemy.removeFromParent();
     }
   }

@@ -2,7 +2,7 @@ import '/models/settings.dart';
 import 'package:flame/flame.dart';
 import 'package:flame_audio/flame_audio.dart';
 
-/// This class is the common interface between [DinoRun]
+/// This class is the common interface between [RabbitRun]
 /// and [Flame] engine's audio APIs.
 class AudioManager {
   late Settings settings;
@@ -52,6 +52,13 @@ class AudioManager {
   void playSfx(String fileName) {
     if (settings.sfx) {
       FlameAudio.play(fileName);
+    }
+  }
+
+  // Round 2  currently playing BGM on loop .
+  void secondstageBgm(String fileName) {
+    if (settings.bgm) {
+      FlameAudio.bgm.play(fileName, volume: 0.4);
     }
   }
 }

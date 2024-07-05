@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:dino_run/game/rabbit.dart';
+import 'package:flame/camera.dart';
+//import 'package:flame/camera.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:hive/hive.dart';
@@ -44,9 +49,14 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
 
   // List of all the audio assets.
   static const _audioAssets = [
-    '8BitPlatformerLoop.wav',
-    'hurt7.wav',
-    'jump14.wav',
+    // '8BitPlatformerLoop.wav',
+    // 'hurt7.wav',
+    // 'jump14.wav',
+    'stage1.wav',
+    'hurt.wav',
+    'jump.wav',
+    'stage2.wav',
+    'complete_level.wav'
   ];
 
   late LevelManager _levelManager;
@@ -75,18 +85,27 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
 
     // Start playing background music. Internally takes care
     // of checking user settings.
-    AudioManager.instance.startBgm('8BitPlatformerLoop.wav');
+   // AudioManager.instance.startBgm('8BitPlatformerLoop.wav');
+    AudioManager.instance.startBgm('stage1.wav');
 
     // Cache all the images.
     await images.loadAll(_imageAssets);
 
     // Set a fixed viewport to avoid manually scaling
     // and handling different screen sizes.
-    camera.viewport = FixedResolutionViewport(Vector2(360, 180));
+  camera.viewport = MaxViewport();
+   // double maxSide = min(size.x, size.y);
+    //earlier
+    //camera.viewport = FixedResolutionViewport(Vector2(360, 180));
+  // camera.viewport =FixedResolutionViewport(resolution: Vector2(720,360) );
+    //camera.viewport = FixedResolutionViewport(Vector2(size.x , size.y), resolution: Vector2(size.x,size.y));
+    //working horizontally half screen
+    //camera.viewport = FixedAspectRatioViewport(aspectRatio: 4);
+
 
     /// Create parallax backgrounds for both stages.
     _parallaxBackgroundStage1 = await _createParallaxBackground(
-        //_createParallaxBackground([
+      //_createParallaxBackground([
         [
           'parallax/plx-1.png',
           'parallax/plx-2.png',
@@ -127,6 +146,9 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
   /// This method add the already created [Rabbit]
   /// and [EnemyManager] to this game.
   void startGamePlay() {
+    // clear all old background rabbit and enemies
+
+   // _disconnectActors();
     // Create a new instance of Rabbit and EnemyManager
 
     currentlevel = 1;
@@ -146,7 +168,7 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
       ParallaxComponent parallaxBackground) async {
     /// Create parallax backgrounds for both stages.
     _parallaxBackgroundStage1 = await _createParallaxBackground(
-        //_createParallaxBackground([
+      //_createParallaxBackground([
         [
           'parallax/plx-1.png',
           'parallax/plx-2.png',
@@ -190,11 +212,14 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
       //remove(_parallaxBackgroundStage1 );
       _parallaxBackgroundStage1.removeFromParent();
       parallaxBackgroundAdded = false;
+
+      _enemyManager.removeAllEnemies();
     } else if ((playerData.currentlevel == 2) &&
         (parallaxBackgroundAdded = true)) {
       //remove(_parallaxBackgroundStage2);
       _parallaxBackgroundStage2.removeFromParent();
       parallaxBackgroundAdded = false;
+      _enemyManager.removeAllEnemies();
     }
     // Reset player data to inital values.
     playerData.currentscore = 0;
@@ -229,12 +254,43 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
       // Trigger game over logic
       handleGameOver();
     }
-  }
+    if (playerData.currentscore >= 150) {
+     // pauseEngine();
+      AudioManager.instance.pauseBgm();
+      // Future.delayed(const Duration(seconds: 2)){
+      //CelebWidget.id;
+     // overlays.add(CelebWidget.id); //not working
+      pauseEngine();
+      AudioManager.instance.playSfx('complete_level.wav');
+      overlays.add(CelebWidget.id);
+      // };
 
+      //pauseEngine();
+      //AudioManager.instance.pauseBgm();
+      // pauseEngine();
+      //Future.delayed(const Duration(seconds: 5));
+      //overlays.add(CelebWidget.id);
+      //Future.delayed(const Duration(seconds: 2));
+      //pauseEngine();
+      // AudioManager.instance.playSfx('complete_level.wav');
+      // Future.delayed(const Duration(seconds: 2));
+
+      // pauseEngine();
+      Future.delayed(const Duration(seconds: 3), () {
+        pauseEngine();
+        //write the event you want it to happen after duration of seconds
+          gameEnd();
+      });
+      // Future.delayed(const Duration(seconds: 2)){
+      //   gameEnd();
+      // };
+    }
+  }
   void updateBackground() {
     if ((_levelManager.level == 2) && (parallaxBackgroundAdded = true)) {
       _parallaxBackgroundStage1.removeFromParent();
       parallaxBackgroundAdded = false;
+      _enemyManager.removeAllEnemies();
       addParallaxBackground(_parallaxBackgroundStage2);
     }
   }
@@ -252,9 +308,11 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
       overlays.add(CelebWidget.id);
       AudioManager.instance.pauseBgm();
       updateScore(50);
+
       _rabbit.removeFromParent();
       _enemyManager.removeAllEnemies();
       updateBackground(); // working
+      AudioManager.instance.startBgm('stage2.wav');
 
       _rabbit = Rabbit(images.fromCache('rabbit.png'), playerData);
       _rabbit.addToParent(_parallaxBackgroundStage2);
@@ -277,7 +335,28 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
     overlays.remove(Hud.id);
     pauseEngine();
     AudioManager.instance.pauseBgm();
+   // AudioManager.instance.startBgm('stage1.wav');
   }
+
+  // game finished with player reaching end
+  void gameEnd() {
+    // Add game over menu, pause engine, etc.
+    // Your existing game over logic here...
+    //pauseEngine();
+    // overlays.add(CelebWidget.id);
+    //  AudioManager.instance.pauseBgm();
+    // AudioManager.instance.playSfx('complete_level.wav');
+    // pauseEngine();
+   // overlays.add(CelebWidget.id);
+    overlays.add(GameOverMenu.id);
+    overlays.remove(Hud.id);
+    AudioManager.instance.stopBgm();
+    AudioManager.instance.startBgm('stage1.wav');
+    AudioManager.instance.stopBgm();
+
+    // AudioManager.instance.startBgm('stage1.wav');
+  }
+
 
   // This will get called for each tap on the screen.
   @override
@@ -294,7 +373,7 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
   /// This method reads [PlayerData] from the hive box.
   Future<PlayerData> _readPlayerData() async {
     final playerDataBox =
-        await Hive.openBox<PlayerData>('RabbitRun.PlayerDataBox');
+    await Hive.openBox<PlayerData>('RabbitRun.PlayerDataBox');
     final playerData = playerDataBox.get('RabbitRun.PlayerData');
 
     // If data is null, this is probably a fresh launch of the game.
@@ -329,8 +408,8 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
   void lifecycleStateChange(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        // On resume, if active overlay is not PauseMenu,
-        // resume the engine (lets the parallax effect play).
+      // On resume, if active overlay is not PauseMenu,
+      // resume the engine (lets the parallax effect play).
         if (!(overlays.isActive(PauseMenu.id)) &&
             !(overlays.isActive(GameOverMenu.id))) {
           resumeEngine();
@@ -339,8 +418,8 @@ class RabbitRun extends FlameGame with TapDetector, HasCollisionDetection {
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
       case AppLifecycleState.inactive:
-        // If game is active, then remove Hud and add PauseMenu
-        // before pausing the game.
+      // If game is active, then remove Hud and add PauseMenu
+      // before pausing the game.
         if (overlays.isActive(Hud.id)) {
           overlays.remove(Hud.id);
           overlays.add(PauseMenu.id);

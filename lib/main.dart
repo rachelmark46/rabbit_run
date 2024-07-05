@@ -19,22 +19,17 @@ import 'splash_screen_page.dart';
 /// will be reused throughout the lifecycle of the game.
 RabbitRun _rabbitRun = RabbitRun();
 
-
-
 Future<void> main() async {
   // Ensures that all bindings are initialized
   // before was start calling hive and flame code
   // dealing with platform channels.
   WidgetsFlutterBinding.ensureInitialized();
-
   // Makes the game full screen and landscape only.
   Flame.device.fullScreen();
   Flame.device.setLandscape();
-
   // Initializes hive and register the adapters.
   await initHive();
   runApp(const MyApp());
- // runApp(const RabbitRunApp());
 }
 
 // This function will initilize hive with apps documents directory.
@@ -45,17 +40,13 @@ Future<void> initHive() async {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
   }
-
   Hive.registerAdapter<PlayerData>(PlayerDataAdapter());
   Hive.registerAdapter<Settings>(SettingsAdapter());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   static const String versionNumber = '1.0.0';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -72,9 +63,6 @@ class MyApp extends StatelessWidget {
 // The main widget for this game.
 class RabbitRunApp extends StatelessWidget {
   const RabbitRunApp({Key? key}) : super(key: key);
-
-  //static const String versionNumber = '1.0.0';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -92,8 +80,6 @@ class RabbitRunApp extends StatelessWidget {
           ),
         ),
       ),
-
-
       home: Scaffold(
         body: GameWidget(
           // This will dislpay a loading bar until [RabbitRun] completes

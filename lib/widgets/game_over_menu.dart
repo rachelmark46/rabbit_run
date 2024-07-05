@@ -66,7 +66,9 @@ class GameOverMenu extends StatelessWidget {
                         gameRef.reset();
                         gameRef.startGamePlay();
                         gameRef.resumeEngine();
-                        //gameRef.startGamePlay();
+                        AudioManager.instance.pauseBgm();
+                        AudioManager.instance.startBgm('stage1.wav');
+
                         AudioManager.instance.resumeBgm();
                       },
                     ),
@@ -94,7 +96,11 @@ class GameOverMenu extends StatelessWidget {
                         gameRef.reset();
                         // gameRef.startGamePlay();
                         gameRef.resumeEngine();
+                        AudioManager.instance.pauseBgm();
+                        AudioManager.instance.startBgm('stage1.wav');
+
                         AudioManager.instance.resumeBgm();
+                       // AudioManager.instance.resumeBgm();
                       },
                     ),
                   ],

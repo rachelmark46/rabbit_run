@@ -6,13 +6,11 @@ import 'main.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
-
   @override
   SplashScreenPageState createState() => SplashScreenPageState();
 }
 
 class SplashScreenPageState extends State<SplashScreenPage> {
-
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 5), () {
@@ -21,7 +19,6 @@ class SplashScreenPageState extends State<SplashScreenPage> {
       );
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +34,13 @@ class SplashScreenPageState extends State<SplashScreenPage> {
               width: 200, // Adjust width as needed
             ),
             SizedBox(height: 24),
-                    Text(
-                      '\nRABBIT RUN ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
-                          color: Colors.white),
-                    ),
+            Text(
+              '\nRABBIT RUN ',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  color: Colors.white),
+            ),
             SizedBox(height: 24), // Spacer
             // Loading text
             Text(
@@ -55,4 +52,4 @@ class SplashScreenPageState extends State<SplashScreenPage> {
       ),
     );
   }
- }
+}

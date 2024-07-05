@@ -4,7 +4,7 @@ import '../game/rabbit_run.dart';
 class LevelManager extends Component with HasGameRef<RabbitRun> {
   LevelManager({required this.level});
 
-  // int selectedLevel; // level that the player selects at the beginning
+
   int level; // current level
   // Configurations for different levels of difficulty
   final Map<int, LevelConfig> levelsConfig = {
@@ -56,11 +56,10 @@ class LevelManager extends Component with HasGameRef<RabbitRun> {
   }
 
   void increaseLevel() {
-    //if (level < levelsConfig.keys.length) {
     if (level == 1) {
       // Add bonus score for crossing from level 1 to level 2
       // print (gameRef.playerData.currentScore);
-      // gameRef.playerData.currentScore += 50;
+
       level++;
       print("new level ");
       print(level);

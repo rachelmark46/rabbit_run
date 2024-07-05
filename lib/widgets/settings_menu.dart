@@ -55,7 +55,7 @@ class SettingsMenu extends StatelessWidget {
                                 value;
                             if (value) {
                               AudioManager.instance
-                                  .startBgm('8BitPlatformerLoop.wav');
+                                  .startBgm('stage1.wav');
                             } else {
                               AudioManager.instance.stopBgm();
                             }

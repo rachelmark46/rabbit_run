@@ -6,7 +6,7 @@ import '/game/enemy.dart';
 import '/game/audio_manager.dart';
 import '/models/player_data.dart';
 
-/// This enum represents the animation states of [Dino].
+/// This enum represents the animation states of [Rabbit].
 enum RabbitAnimationStates {
   idle,
   run,
@@ -16,7 +16,7 @@ enum RabbitAnimationStates {
   pop,
 }
 
-// This represents the dino character of this game.
+// This represents the rabbit character of this game.
 class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
     with CollisionCallbacks, HasGameRef<RabbitRun> {
   // A map of all the animation states and their corresponding animations.
@@ -63,7 +63,7 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
   // rabbit should never go. Basically the screen height - ground height
   double yMax = 0.0;
 
-  // Dino's current speed along y-axis.
+  // Rabbit's current speed along y-axis.
   double speedY = 0.0;
 
   // Controlls how long the hit animations will be played.
@@ -108,12 +108,12 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
   @override
   void update(double dt) {
     // v = u + at
-    speedY += gravity * dt;
+    speedY +=  gravity * dt;
 
     // d = s0 + s * t
-    y += speedY * dt;
+    y +=  speedY * dt;
 
-    /// This code makes sure that dino never goes beyond [yMax].
+    /// This code makes sure that rabbit never goes beyond [yMax].
     if (isOnGround) {
       y = yMax;
       speedY = 0.0;
@@ -141,13 +141,13 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
 // Returns true if dino is on ground.
   bool get isOnGround => (y >= yMax);
 
-  // Makes the dino jump.
+  // Makes the rabbit jump.
   void jump() {
-    // Jump only if dino is on ground.
+    // Jump only if rabbit is on ground.
     if (isOnGround) {
-      speedY = -300;
+      speedY = -520; // earlier -500
       current = RabbitAnimationStates.idle;
-      AudioManager.instance.playSfx('jump14.wav');
+      AudioManager.instance.playSfx('jump.wav');
     }
   }
 
@@ -156,7 +156,7 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
   // effect and reduces the player life by 1.
   void hit() {
     isHit = true;
-    AudioManager.instance.playSfx('hurt7.wav');
+    AudioManager.instance.playSfx('hurt.wav');
     current = RabbitAnimationStates.hit;
     _hitTimer.start();
     playerData.lives -= 1;
@@ -169,9 +169,9 @@ class Rabbit extends SpriteAnimationGroupComponent<RabbitAnimationStates>
       removeFromParent();
     }
     anchor = Anchor.bottomLeft;
-    //position = Vector2(32, gameRef.size.y - 22);
-    position = Vector2(32, gameRef.size.y - 25);
-    size = Vector2.all(24);
+    //position = Vector2(32, gameRef.size.y - 25);
+    position = Vector2(32, gameRef.size.y - 55);
+    size = Vector2.all(50);
     current = RabbitAnimationStates.run;
     isHit = false;
     speedY = 0.0;
