@@ -5,6 +5,8 @@ import '../game/audio_manager.dart';
 import '../game/rabbit_run.dart';
 import '/widgets/hud.dart';
 import '/widgets/settings_menu.dart';
+import 'package:flutter_donation_buttons/donationButtons/buyMeACoffeeButton.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // This represents the main menu overlay.
 class MainMenu extends StatelessWidget {
@@ -42,19 +44,6 @@ class MainMenu extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     gameRef.startGamePlay();
-                  //     gameRef.overlays.remove(MainMenu.id);
-                  //     gameRef.overlays.add(Hud.id);
-                  //   },
-                  //   child: const Text(
-                  //     'Play',
-                  //     style: TextStyle(
-                  //       fontSize: 30,
-                  //     ),
-                  //   ),
-                  // ),
 
 
                   ElevatedButton(
@@ -71,7 +60,7 @@ class MainMenu extends StatelessWidget {
                     child: const Text(
                       'Play',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -83,10 +72,34 @@ class MainMenu extends StatelessWidget {
                     child: const Text(
                       'Settings',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                       ),
                     ),
                   ),
+                  const BuyMeACoffeeButton(
+                    text: "Support Us!",
+                    buyMeACoffeeName: "rachelmark",
+                    color: BuyMeACoffeeColor.Blue,
+
+                    //Allows custom styling
+
+                  ), Center(
+              child: new InkWell(
+                  child: new Text('About Us', style: TextStyle(
+                      fontSize: 20,
+                      color:  Colors.white
+                  ),),
+                  onTap: () => launch('https://www.ppixel.org')
+              ),
+            ),  Center(
+              child: new InkWell(
+                  child: new Text('Check other Apps', style: TextStyle(
+                    fontSize: 20,
+                    color:  Colors.white
+                  ),),
+                  onTap: () => launch('https://play.google.com/store/apps/developer?id=Puzzle+Pixel+Studio')
+              ),
+            ),
                 ],
               ),
             ),

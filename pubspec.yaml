@@ -19,6 +19,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   confetti: ^0.7.0
   flutter_launcher_icons: ^0.13.1
+  flutter_donation_buttons: ^0.4.10
+
 
 flutter_icons:
   image_path: "assets/images/icon.png"
