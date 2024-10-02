@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_donation_buttons/donationButtons/buyMeACoffeeButton.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../game/rabbit_run.dart';
 import '/widgets/main_menu.dart';
 import '/models/player_data.dart';
@@ -33,7 +35,7 @@ class GameOverMenu extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
                 child: Wrap(
                   direction: Axis.vertical,
                   crossAxisAlignment: WrapCrossAlignment.center,
@@ -57,7 +59,7 @@ class GameOverMenu extends StatelessWidget {
                       child: const Text(
                         'Restart',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 15,
                         ),
                       ),
                       onPressed: () {
@@ -86,7 +88,7 @@ class GameOverMenu extends StatelessWidget {
                       child: const Text(
                         'Exit',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 15,
                         ),
                       ),
                       onPressed: () {
@@ -103,6 +105,58 @@ class GameOverMenu extends StatelessWidget {
                        // AudioManager.instance.resumeBgm();
                       },
                     ),
+
+                    //add support us and check other apps and about us here
+
+                    // buy me a coffee button
+                    BuyMeACoffeeButton(
+                      text: "Support Us!",
+                      buyMeACoffeeName: "rachelmark",
+                      color: BuyMeACoffeeColor.Grey,
+                    ),
+
+
+// check other apps
+                    ElevatedButton(
+                      onPressed: () async {
+                        //gameRef.overlays.remove(MainMenu.id);
+                        const url = 'https://play.google.com/store/apps/developer?id=Puzzle+Pixel+Studio';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+
+                      child: const Text(
+                        'Check Other Apps',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+
+                    // about
+                    ElevatedButton(
+                      onPressed: () async {
+                        const url = 'https://www.ppixel.online/rabbit-run'; // Your URL
+                        final Uri uri = Uri.parse(url); // Convert URL to Uri object
+
+                        // Check if the URL can be launched
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri, mode: LaunchMode.externalApplication); // Open in default browser
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      child: const Text(
+                        'About',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
               ),

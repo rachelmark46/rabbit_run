@@ -86,10 +86,16 @@ class PauseMenu extends StatelessWidget {
                       onPressed: () {
                         gameRef.overlays.remove(PauseMenu.id);
                         gameRef.overlays.add(MainMenu.id);
-                       // gameRef.reset();
                         gameRef.resumeEngine();
-
+                        gameRef.reset();
                         AudioManager.instance.resumeBgm();
+
+                        //  gameRef.overlays.remove(PauseMenu.id);
+                       //  gameRef.overlays.add(MainMenu.id);
+                       // // gameRef.reset();
+                       //  gameRef.resumeEngine();
+                       //
+                       //  AudioManager.instance.resumeBgm();
                       },
                       child: const Text(
                         'Exit',

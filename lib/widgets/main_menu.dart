@@ -31,7 +31,8 @@ class MainMenu extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                //  const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
               child: Wrap(
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -40,7 +41,7 @@ class MainMenu extends StatelessWidget {
                   const Text(
                     'RABBIT RUN',
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: 40,
                       color: Colors.white,
                     ),
                   ),
@@ -60,10 +61,13 @@ class MainMenu extends StatelessWidget {
                     child: const Text(
                       'Play',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                     ),
                   ),
+
+
+                  //settings
                   ElevatedButton(
                     onPressed: () {
                       gameRef.overlays.remove(MainMenu.id);
@@ -72,34 +76,93 @@ class MainMenu extends StatelessWidget {
                     child: const Text(
                       'Settings',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                     ),
                   ),
-                  const BuyMeACoffeeButton(
-                    text: "Support Us!",
-                    buyMeACoffeeName: "rachelmark",
-                    color: BuyMeACoffeeColor.Blue,
 
-                    //Allows custom styling
+              // buy me a coffee button
+              BuyMeACoffeeButton(
+                          text: "Support Us!",
+                           buyMeACoffeeName: "rachelmark",
+                       color: BuyMeACoffeeColor.Grey,
+              ),
+                //  // support us
+                // ElevatedButton(
+                //  //  onPressed:()=>
+                //  //  {
+                //  // // gameRef.overlays.remove(MainMenu.id),
+                //  //    BuyMeACoffeeButton(
+                //  //      text: "Support Us!",
+                //  //      buyMeACoffeeName: "rachelmark",
+                //  //      color: BuyMeACoffeeColor.Green,
+                //  //    ),
+                //  //  },
+                //   onPressed: () {
+                //     // Show a dialog with the BuyMeACoffeeButton when pressed
+                //     showDialog(
+                //       context: context,
+                //       builder: (BuildContext context) {
+                //         return AlertDialog(
+                //           content: BuyMeACoffeeButton(
+                //             text: "Support Us!",
+                //             buyMeACoffeeName: "rachelmark",
+                //             color: BuyMeACoffeeColor.Green,
+                //           ),
+                //         );
+                //       },
+                //     );
+                //   },
+                //   child: const Text(
+                //     'Support Us',
+                //     style: TextStyle(
+                //       fontSize: 15,
+                //     ),
+                //   ),
+                // ),
+                //
 
-                  ), Center(
-              child: new InkWell(
-                  child: new Text('About Us', style: TextStyle(
-                      fontSize: 20,
-                      color:  Colors.white
-                  ),),
-                  onTap: () => launch('https://www.ppixel.org')
+// check other apps
+                  ElevatedButton(
+                    onPressed: () async {
+                      //gameRef.overlays.remove(MainMenu.id);
+                      const url = 'https://play.google.com/store/apps/developer?id=Puzzle+Pixel+Studio';
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+
+                    child: const Text(
+                      'Check Other Apps',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+
+                  // about
+              ElevatedButton(
+                onPressed: () async {
+                  const url = 'https://www.ppixel.online/rabbit-run'; // Your URL
+                  final Uri uri = Uri.parse(url); // Convert URL to Uri object
+
+                  // Check if the URL can be launched
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication); // Open in default browser
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+                child: const Text(
+                  'About',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
               ),
-            ),  Center(
-              child: new InkWell(
-                  child: new Text('Check other Apps', style: TextStyle(
-                    fontSize: 20,
-                    color:  Colors.white
-                  ),),
-                  onTap: () => launch('https://play.google.com/store/apps/developer?id=Puzzle+Pixel+Studio')
-              ),
-            ),
+
                 ],
               ),
             ),
@@ -109,3 +172,53 @@ class MainMenu extends StatelessWidget {
     );
   }
 }
+
+
+//
+// // Placeholder for the BuyMeACoffeeButton widget
+// class BuyMeACoffeeButton extends StatelessWidget {
+//   final String text;
+//   final String buyMeACoffeeName;
+//   final BuyMeACoffeeColor color;
+//
+//   const BuyMeACoffeeButton({
+//     required this.text,
+//     required this.buyMeACoffeeName,
+//     required this.color,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisSize: MainAxisSize.min,
+//       children: [
+//         Text(
+//           text,
+//           style: TextStyle(
+//               color: color == BuyMeACoffeeColor.Green
+//                   ? Colors.green
+//                   : Colors.black),
+//         ),
+//         const SizedBox(height: 10),
+//         // BuyMeACoffee Button
+//         const BuyMeACoffeeButton(
+//           buyMeACoffeeName: "rachelmark",
+//           color: BuyMeACoffeeColor.Green, text: '',
+//         ),
+//         // ElevatedButton(
+//         //  // onPressed: () {
+//         //     // // Perform any action, such as launching BuyMeACoffee link
+//         //     // Navigator.of(context).pop(); // Close the dialog
+//         //     // print('Redirecting to BuyMeACoffee page...');
+//         //     // BuyMeACoffee Button
+//         //      BuyMeACoffeeButton(
+//         //       buyMeACoffeeName: "rachelmark",
+//         //       color: BuyMeACoffeeColor.Green,
+//         //     ),
+//         //   },
+//         //   child: const Text('Buy Me a Coffee'),
+//         // ),
+//       ],
+//     );
+//   }
+// }
